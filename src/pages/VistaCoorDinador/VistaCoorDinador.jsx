@@ -1,9 +1,9 @@
 import React from 'react'
-import ResponsiveAppBar from '../../components/ResponsiveAppBar/ResponsiveAppBar'
+import MenuCoordinador from '../../components/MenuCoordinador/MenuCoordinador'
 
 const VistaCoordinador = () => {
   return (
-    <ResponsiveAppBar></ResponsiveAppBar>
+    <MenuCoordinador></MenuCoordinador>
   )
 }
 

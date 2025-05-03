@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import VistaCoordinador from './pages/vistaCoordinador/vistaCoordinador';
+import VistaCoordinador from './pages/VistaCoorDinador/VistaCoorDinador';
 import VistaGestionarUsuario from './pages/VistaGestionarUsuario/VistaGestionarUsuario';
 
 function App() {
