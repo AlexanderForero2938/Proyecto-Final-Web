@@ -1,0 +1,11 @@
+#contenedor-gestionar-usuario {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Para que se acomoden en vertical */
+    gap: 10px;
+}
+
+#contenedor-opciones{
+    width: 100%;
+    margin-left: 10px;
+}
