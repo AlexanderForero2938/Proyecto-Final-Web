@@ -119,7 +119,7 @@ function MenuCoordinador() {
                                     page === 'Gestionar Usuarios'
                                         ? '/VistaCoordinador/VistaGestionarUsuario'
                                         : page === 'Gestionar Proyectos'
-                                            ? '/gestionar-proyectos'
+                                            ? '/VistaCoordinador/VistaGestionarProyecto'
                                             : '#'
                                 }
                                 key={page}

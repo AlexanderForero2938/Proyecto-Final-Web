@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-#contenedor-gestionar-usuario {
+#contenedor-gestionar-proyecto {
     width: 100%;
     height: 100%;
     display: flex;
@@ -15,12 +15,9 @@
 #contenedor-opciones{
     display: flex;
     width: 100%;
+    justify-content: center;
     margin-left: 10px;
     flex-direction: row;
     gap: 40px;
 }
-
-
-
-
 

@@ -7,7 +7,6 @@ import FormularioRegistrarUsuario from '../FormularioRegistrarUsuario/Formulario
 import FormularioModificarUsuario from '../FormularioModificarUsuario/FormularioModificarUsuario';
 
 const ModalFormulario = ({ open, handleClose, tipo, titulo }) => {
-  console.log("Tipo recibido:", tipo);
   const renderFormulario = () => {
     switch (tipo) {
       case "Registrar Usuario":
