@@ -4,9 +4,9 @@ import BotonVerde from '../BotonVerde/BotonVerde';
 import BotonRojo from '../BotonRojo/BotonRojo';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import './FormularioRegistrarUsuario.css';
 
-const FormularioRegistrarUsuario = ({ onClose }) => {
+const FormularioModificarUsuario = ({ onClose }) => {
+    const [nombreUsuario, setNombreUsuario] = useState('');
     const [primerNombre, setPrimerNombre] = useState('');
     const [segundoNombre, setSegundoNombre] = useState('');
     const [primerApellido, setPrimerApellido] = useState('');
@@ -17,6 +17,9 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
         const { name, value } = event.target;
 
         switch (name) {
+            case 'nombreUsuario':
+                setNombreUsuario(value);
+                break;
             case 'primerNombre':
                 setPrimerNombre(value);
                 break;
@@ -41,8 +44,14 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
     return (
         <>
             <div id='contenedor-formulario'>
-                <form>
+                <form action="">
                     <div id='contenedor-superior'>
+                        <InputFormulario
+                            name="nombreUsuario"
+                            value={nombreUsuario}
+                            onChange={handleChange}
+                            placeholder="Nombre Usuario"
+                        />
                         <InputFormulario
                             name="primerNombre"
                             value={primerNombre}
@@ -84,4 +93,4 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
     );
 };
 
-export default FormularioRegistrarUsuario;
+export default FormularioModificarUsuario

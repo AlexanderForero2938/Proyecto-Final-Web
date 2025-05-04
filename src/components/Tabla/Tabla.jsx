@@ -11,12 +11,17 @@ const Tabla = ({ columns, rows }) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="tabla dinámica">
-                <TableHead>
+                <TableHead >
                     <TableRow>
                         {columns.map((column) => (
                             <TableCell
                                 key={column.id}
-                                align={column.align || 'left'}
+                                align="center" 
+                                sx={{
+                                    color: 'black',
+                                    textAlign: 'center', 
+                                    fontWeight: 'bold'  
+                                }}
                             >
                                 {column.label}
                             </TableCell>
@@ -32,7 +37,10 @@ const Tabla = ({ columns, rows }) => {
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
-                                    align={column.align || 'left'}
+                                    align="center"
+                                    sx={{
+                                        textAlign: 'center', 
+                                    }}
                                 >
                                     {row[column.id]}
                                 </TableCell>

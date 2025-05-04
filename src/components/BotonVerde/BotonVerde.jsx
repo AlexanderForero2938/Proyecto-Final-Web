@@ -1,11 +1,14 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
-const BotonVerde = ({ label }) => {
+const BotonVerde = ({ label, icono }) => {
   return (
-    <Button variant="contained" color="success" id='boton-aceptar'>
-      {label}
-    </Button>
+    <Stack direction="row" spacing={2}>
+      <Button variant="contained" color="success" id='boton-aceptar' startIcon={icono}>
+        {label}
+      </Button>
+    </Stack>
   )
 }
 
