@@ -4,23 +4,44 @@
     box-sizing: border-box;
 }
 
+html, body, #root {
+    height: 100%;
+}
+
 #contenedor-gestionar-usuario {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column; /* Para que se acomoden en vertical */
-    gap: 10px;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-#contenedor-opciones{
+#contenedor-opciones {
     display: flex;
     width: 100%;
-    margin-left: 10px;
     flex-direction: row;
     gap: 40px;
+    margin-top: 10px;
+    flex-shrink: 0; /* Evita que se encoja */
 }
 
+#contenedor-tabla {
+    margin-top: 10px;
+    width: 100%;
+    flex: 1; /* Ocupa el espacio restante */
+    min-height: 0; /* Permite el scroll interno */
+    overflow: hidden; /* Oculta el scroll del contenedor padre */
+    display: flex;
+    flex-direction: column;
+}
 
+/* Estilos para la tabla de Material-UI */
+.MuiTableContainer-root {
+    flex: 1;
+    overflow: auto;
+    background-color: inherit;
+}
 
-
-
+.MuiTable-root {
+    min-width: 650px; /* O el ancho mínimo que necesites */
+}

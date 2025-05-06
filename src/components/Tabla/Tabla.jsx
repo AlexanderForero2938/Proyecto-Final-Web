@@ -9,7 +9,11 @@ import Paper from '@mui/material/Paper';
 
 const Tabla = ({ columns, rows }) => {
     return (
-        <TableContainer component={Paper}>
+        <TableContainer 
+        sx={{ 
+            backgroundColor: 'transparent'
+        }}
+        >
             <Table sx={{ minWidth: 650 }} aria-label="tabla dinámica">
                 <TableHead >
                     <TableRow>

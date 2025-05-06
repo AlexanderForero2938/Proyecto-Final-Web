@@ -5,6 +5,7 @@ import BotonRojo from '../BotonRojo/BotonRojo';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import './FormularioRegistrarUsuario.css';
+import supabase from '../../supabase';
 
 const FormularioRegistrarUsuario = ({ onClose }) => {
     const [primerNombre, setPrimerNombre] = useState('');
@@ -12,6 +13,7 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
     const [primerApellido, setPrimerApellido] = useState('');
     const [segundoApellido, setSegundoApellido] = useState('');
     const [numeroIdentificacion, setNumeroIdentificacion] = useState('');
+    const [mensaje, setMensaje] = useState(''); // ✅ Aquí lo defines
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -37,11 +39,40 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
         }
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Formulario enviado");
+    
+        const { data, error } = await supabase.rpc('registrar_usuario', {
+            pprimernombrepersona: primerNombre,
+            psegundonombrepersona: segundoNombre,
+            pprimerapellidopersona: primerApellido,
+            psegundoapellidopersona: segundoApellido,
+            pnumeroidentificacionpersona: numeroIdentificacion
+        });
+    
+        if (error) {
+            setMensaje('Ocurrió un error al registrar el usuario.');
+        } else {
+            const mensajeExito = data?.[0]?.mensaje;
+            setMensaje(mensajeExito);
+    
+            // Este if debe estar DENTRO del bloque else
+            if (mensajeExito === 'Se registró el usuario exitosamente') {
+                setPrimerNombre('');
+                setSegundoNombre('');
+                setPrimerApellido('');
+                setSegundoApellido('');
+                setNumeroIdentificacion('');
+            }
+        }
+    };
+
 
     return (
         <>
             <div id='contenedor-formulario'>
-                <form>
+                <form onSubmit={handleSubmit}> {/* ✅ Debes vincular handleSubmit al form */}
                     <div id='contenedor-superior'>
                         <InputFormulario
                             name="primerNombre"
@@ -71,13 +102,14 @@ const FormularioRegistrarUsuario = ({ onClose }) => {
                             name="numeroIdentificacion"
                             value={numeroIdentificacion}
                             onChange={handleChange}
-                            placeholder="Núnero Identificación"
+                            placeholder="Número Identificación"
                         />
                     </div>
                     <div id='contenedor-boton'>
                         <BotonVerde label="ACEPTAR" icono={<CheckIcon />} />
                         <BotonRojo onClick={onClose} label={"CANCELAR"} icono={<ClearIcon />} />
                     </div>
+                    {mensaje && <p className="mensaje">{mensaje}</p>} {/* ✅ Mostrar mensaje */}
                 </form>
             </div>
         </>
