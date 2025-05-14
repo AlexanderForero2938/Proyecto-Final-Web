@@ -10,13 +10,19 @@ import ModalFormulario from '../../components/ModalFormulario/ModalFormulario';
 import Stack from '@mui/material/Stack';
 import './VistaGestionarUsuario.css';
 import supabase from '../../supabase';
+import InputFiltro from '../../components/InputFiltro/InputFiltro';
+import BotonVerde from '../../components/BotonVerde/BotonVerde';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const VistaGestionarUsuario = () => {
   const [openRegistrar, setOpenRegistrar] = useState(false);
   const [openModificar, setOpenModificar] = useState(false);
   const [usuarios, setUsuarios] = useState([]);
+  const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [filtro, setFiltro] = useState('');
 
   // Función para cargar usuarios
   const cargarUsuarios = async () => {
@@ -24,17 +30,35 @@ const VistaGestionarUsuario = () => {
       setLoading(true);
       setError(null);
       const { data, error: supabaseError } = await supabase.rpc('mostrar_usuario');
-      
+
       if (supabaseError) {
         throw supabaseError;
       }
-      
+
       setUsuarios(data);
+      setUsuariosFiltrados(data); // Inicialmente mostrar todos los usuarios
     } catch (err) {
       console.error('Error al cargar usuarios:', err);
       setError('Error al cargar los usuarios');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Función para manejar el cambio en el filtro
+  const handleChange = (event) => {
+    const valor = event.target.value;
+    setFiltro(valor);
+
+    if (valor.trim() === '') {
+      setUsuariosFiltrados(usuarios);
+    } else {
+      const filtrados = usuarios.filter(usuario =>
+        usuario.nombrecompleto.toLowerCase().includes(valor.toLowerCase()) ||
+        usuario.nombrerol.toLowerCase().includes(valor.toLowerCase()) ||
+        usuario.estadousuario.toLowerCase().includes(valor.toLowerCase())
+      );
+      setUsuariosFiltrados(filtrados);
     }
   };
 
@@ -46,83 +70,126 @@ const VistaGestionarUsuario = () => {
   // Handlers para modales
   const handleOpenRegistrar = () => setOpenRegistrar(true);
   const handleCloseRegistrar = () => setOpenRegistrar(false);
-  const handleOpenModificar = () => setOpenModificar(true);
-  const handleCloseModificar = () => setOpenModificar(false);
+
+  const handleOpenModificar = (usuario) => {
+    setUsuarioSeleccionado(usuario);
+    setOpenModificar(true);
+  };
+
+  const handleCloseModificar = () => {
+    setOpenModificar(false);
+    setUsuarioSeleccionado(null);
+  };
 
   // Función para manejar registro exitoso
   const handleRegistroExitoso = () => {
     handleCloseRegistrar();
-    cargarUsuarios(); // Recargar la lista de usuarios
+    cargarUsuarios();
+  };
+
+  // Función para eliminar usuario
+  const handleEliminarUsuario = async (numeroIdentificacion) => {
+    try {
+      const { error } = await supabase.rpc('inactivar_usuario', {
+        pnumeroidentificacion: numeroIdentificacion
+      });
+
+      if (error) throw error;
+
+      // Recargar los usuarios después de la inactivación
+      await cargarUsuarios();
+    } catch (err) {
+      console.error('Error al inactivar el usuario:', err);
+      setError('Error al inactivar el usuario');
+    }
+  };
+
+  const handleActivar = async (numeroIdentificacion) => {
+    try {
+      const { error } = await supabase.rpc('activar_usuario', {
+        pnumeroidentificacion: numeroIdentificacion
+      });
+
+      if (error) throw error;
+
+      // Recargar los usuarios después de la inactivación
+      await cargarUsuarios();
+    } catch (err) {
+      console.error('Error al inactivar el usuario:', err);
+      setError('Error al inactivar el usuario');
+    }
   };
 
   // Configuración de columnas para la tabla
   const columns = [
-    { id: 'nombreUsuario', label: 'NOMBRE USUARIO' },
     { id: 'nombreCompleto', label: 'NOMBRE COMPLETO' },
     { id: 'numeroIdentificacion', label: 'NUMERO IDENTIFICACIÓN' },
+    { id: 'correoElectronico', label: 'CORREO ELECTRONICO' },
+    { id: 'nombreRol', label: 'NOMBRE ROL' },
+    { id: 'estadoUsuario', label: 'ESTADO USUARIO' },
     { id: 'opciones', label: 'OPCIONES' },
   ];
 
   // Preparar datos para la tabla
-  const rows = usuarios.map((usuario) => ({
-    nombreUsuario: usuario.nombreusuario,
+  const rows = usuariosFiltrados.map((usuario) => ({
     nombreCompleto: usuario.nombrecompleto,
     numeroIdentificacion: usuario.numeroidentificacion,
+    correoElectronico: usuario.correoelectronico,
+    nombreRol: usuario.nombrerol,
+    estadoUsuario: usuario.estadousuario,
     opciones: (
-      <Stack direction="row" spacing={2} justifyContent="center">
+      <Stack direction="row" spacing={3} justifyContent="center">
         <BotonFormulario
           label="MODIFICAR"
           component={ModalFormulario}
           icono={<EditIcon />}
-          onClick={handleOpenModificar}
+          onClick={() => handleOpenModificar(usuario)}
           propsModal={{
-            open: openModificar,
+            open: openModificar && usuarioSeleccionado?.numeroidentificacion === usuario.numeroidentificacion,
             handleClose: handleCloseModificar,
             tipo: "Modificar Usuario",
-            titulo: "Formulario Modificar Usuario",
+            titulo: "Modificar Usuario",
+            nombreUsuario: usuario.numeroidentificacion,
             data: usuario,
-            onSuccess: cargarUsuarios // Recargar después de modificar
+            onSuccess: cargarUsuarios
           }}
         />
+
         <BotonRojo
-          onClick={async () => {
-            // Aquí podrías agregar la lógica para eliminar
-            // await supabase.from('usuario').delete()...
-            // Y luego:
-            await cargarUsuarios(); // Recargar después de eliminar
+          onClick={() => {
+            const confirmacion = window.confirm('¿Estás seguro de eliminar este usuario?');
+            if (confirmacion) {
+              handleEliminarUsuario(usuario.numeroidentificacion);
+            }
           }}
           label={"ELIMINAR"}
           icono={<DeleteIcon />}
+        />
+
+        <BotonVerde
+          onClick={() => {
+            const confirmacion = window.confirm('¿Estás seguro de activar este usuario?');
+            if (confirmacion) {
+              handleActivar(usuario.numeroidentificacion);
+            }
+          }}
+          label={"ACTIVAR"}
+          icono={<CheckCircleIcon />}
         />
       </Stack>
     ),
   }));
 
-  // Renderizado condicional
-  if (loading) {
-    return (
-      <div id='contenedor-gestionar-usuario'>
-        <MenuCoordinador />
-        <div className="cargando">Cargando usuarios...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div id='contenedor-gestionar-usuario'>
-        <MenuCoordinador />
-        <div className="error">{error}</div>
-        <button onClick={cargarUsuarios}>Reintentar</button>
-      </div>
-    );
-  }
-
   return (
     <div id='contenedor-gestionar-usuario'>
       <MenuCoordinador />
       <div id='contenedor-opciones'>
-        {<BotonFormulario
+        <InputFiltro
+          onChange={handleChange}
+          placeholder="Búscar Usuario"
+          value={filtro}
+        />
+        <BotonFormulario
           label="REGISTRAR USUARIO"
           component={ModalFormulario}
           icono={<PersonAddIcon />}
@@ -134,10 +201,14 @@ const VistaGestionarUsuario = () => {
             titulo: "Formulario Registrar Usuario",
             onSuccess: handleRegistroExitoso
           }}
-        />}
+        />
       </div>
       <div id='contenedor-tabla'>
-        {<Tabla columns={columns} rows={rows} />}
+        <Tabla
+          columns={columns}
+          rows={rows}
+          emptyMessage={usuariosFiltrados.length === 0 ? "No se encontraron usuarios" : null}
+        />
       </div>
     </div>
   );

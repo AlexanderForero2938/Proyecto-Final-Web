@@ -4,7 +4,9 @@
     box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     height: 100%;
 }
 
@@ -14,28 +16,33 @@ html, body, #root {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    justify-content: center;
+    align-items: center;
 }
 
 #contenedor-opciones {
     display: flex;
-    width: 100%;
+    width: 80%;
+    height: 5%;
     flex-direction: row;
-    gap: 40px;
+    gap: 50px;
     margin-top: 10px;
-    flex-shrink: 0; /* Evita que se encoja */
+    flex-shrink: 0;
+    
 }
 
 #contenedor-tabla {
-    margin-top: 10px;
+    margin-top: 20px;
     width: 100%;
-    flex: 1; /* Ocupa el espacio restante */
-    min-height: 0; /* Permite el scroll interno */
-    overflow: hidden; /* Oculta el scroll del contenedor padre */
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    align-items: center; /* <-- Centro horizontalmente */
 }
 
-/* Estilos para la tabla de Material-UI */
+
 .MuiTableContainer-root {
     flex: 1;
     overflow: auto;
@@ -43,5 +50,5 @@ html, body, #root {
 }
 
 .MuiTable-root {
-    min-width: 650px; /* O el ancho mínimo que necesites */
+    min-width: 650px;
 }

@@ -11,7 +11,8 @@ const Tabla = ({ columns, rows }) => {
     return (
         <TableContainer 
         sx={{ 
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            maxWidth: '95%'
         }}
         >
             <Table sx={{ minWidth: 650 }} aria-label="tabla dinámica">

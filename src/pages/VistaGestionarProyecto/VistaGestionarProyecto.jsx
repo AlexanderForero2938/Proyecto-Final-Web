@@ -17,7 +17,7 @@ const VistaGestionarProyecto = () => {
 
     const columns = [
         { id: 'nombreProyecto', label: 'NOMBRE PROYECYO' },
-        { id: 'area', label: 'ÁREA'},
+        { id: 'area', label: 'ÁREA' },
         { id: 'estadoProyecto', label: 'ESTADO PROYECTO' },
         { id: 'presupuestoProyecto', label: 'PRESUPUESTO PROYECTO' },
         { id: 'nombreDocente', label: 'NOMBRE DOCENTE' },
@@ -59,9 +59,9 @@ const VistaGestionarProyecto = () => {
                 propsModal={{
                     open: openModificar,
                     handleClose: handleCloseModificar,
-                    tipo: "Modificar Usuario",
-                    titulo: "Formulario Modificar Usuario",
-                    data: item, // aquí puedes pasarle el dato específico si lo necesitas
+                    tipo: "Modificar Proyecto",
+                    titulo: "Formulario Proyecto",
+                    data: item,
                 }}
             />
         ),
