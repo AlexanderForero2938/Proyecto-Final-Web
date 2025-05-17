@@ -6,6 +6,7 @@ import './ModalFormulario.css';
 import FormularioRegistrarUsuario from '../FormularioRegistrarUsuario/FormularioRegistrarUsuario';
 import FormularioModificarUsuario from '../FormularioModificarUsuario/FormularioModificarUsuario';
 import FormularioModificarEstadoProyecto from '../FormularioModificarEstadoProyecto/FormularioModificarEstadoProyecto';
+import FormularioRegistrarProyecto from '../FormularioRegistrarProyecto/FormularioRegistrarProyecto';
 
 const ModalFormulario = ({ open, handleClose, tipo, titulo, nombreUsuario, onSuccess }) => {
   // Función para renderizar el formulario adecuado basado en el tipo
@@ -17,6 +18,8 @@ const ModalFormulario = ({ open, handleClose, tipo, titulo, nombreUsuario, onSuc
         return <FormularioModificarUsuario onClose={handleClose} nombreUsuario={nombreUsuario} onSuccess={onSuccess} />;
       case "Modificar Proyecto":
         return <FormularioModificarEstadoProyecto onClose={handleClose} />;
+      case "Registrar Proyecto":
+        return <FormularioRegistrarProyecto onClose={handleClose} onSuccess={onSuccess} />;
       default:
         return null;
     }
