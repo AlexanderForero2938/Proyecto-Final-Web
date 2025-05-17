@@ -19,10 +19,9 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
             setLoading(true);
             setError(null);
 
-            const { data, error: supabaseError } = await supabase
-                .rpc('buscar_usuario', {
-                    pnumeroidentificacion: nombreUsuario
-                });
+            const { data, error: supabaseError } = await supabase.rpc('buscar_usuario', {
+                pnumeroidentificacion: nombreUsuario
+            });
 
             if (supabaseError) throw supabaseError;
 
@@ -30,10 +29,10 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
                 const usuarioData = data[0];
                 setUsuario({
                     numeroIdentificacion: usuarioData.numeroidentificacion || '',
-                    nombreCompleto: usuarioData.nombrecompleto || '',
-                    correoElectronico: usuarioData.correoelectronico || '',
-                    nombreRol: usuarioData.nombrerol || '',
-                    estadoUsuario: usuarioData.estadousuario || ''
+                    nombre: usuarioData.nombre || '',
+                    apellido: usuarioData.apellido || '',
+                    grado: usuarioData.grado || '',
+                    correoElectronico: usuarioData.correoelectronico || ''
                 });
             } else {
                 setError('Usuario no encontrado');
@@ -58,12 +57,13 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { numeroIdentificacion, nombreCompleto, correoElectronico } = usuario;
+        const { numeroIdentificacion, nombre, apellido, correoElectronico } = usuario;
 
         const { data, error } = await supabase.rpc('modificar_usuario', {
             pnumeroidentificacion: numeroIdentificacion,
-            pcorreoelectronico: correoElectronico,
-            pnombre: nombreCompleto
+            pnombre: nombre,
+            papellido: apellido,
+            pemail: correoElectronico
         });
 
         if (error) {
@@ -75,9 +75,6 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
             if (onSuccess) onSuccess();
             if (onClose) onClose();
         }
-
-
-
     };
 
     if (loading) {
@@ -98,13 +95,20 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
     }
 
     return (
-        <div id='contenedor-formulario'>
+        <div id="contenedor-formulario">
             <form onSubmit={handleSubmit}>
-                <div id='contenedor-superior'>
-                    <LabelFormulario label="Nombre Completo" />
+                <div id="contenedor-superior">
+                    <LabelFormulario label="Nombre" />
                     <InputModificar
-                        name="nombreCompleto"
-                        value={usuario.nombreCompleto}
+                        name="nombre"
+                        value={usuario.nombre}
+                        onChange={handleChange}
+                    />
+
+                    <LabelFormulario label="Apellido" />
+                    <InputModificar
+                        name="apellido"
+                        value={usuario.apellido}
                         onChange={handleChange}
                     />
 
@@ -115,29 +119,28 @@ const FormularioModificarUsuario = ({ onClose, nombreUsuario, onSuccess }) => {
                         disabled
                     />
 
+                    {usuario.grado && (
+                        <>
+                            <LabelFormulario label="Grado" />
+                            <InputModificar
+                                name="grado"
+                                value={usuario.grado}
+                                disabled
+                            />
+                        </>
+                    )}
+
                     <LabelFormulario label="Correo Electrónico" />
                     <InputModificar
                         name="correoElectronico"
                         value={usuario.correoElectronico}
                         onChange={handleChange}
                     />
-
-                    <LabelFormulario label="Rol" />
-                    <InputModificar
-                        value={usuario.nombreRol}
-                        disabled
-                    />
-
-                    <LabelFormulario label="Estado" />
-                    <InputModificar
-                        value={usuario.estadoUsuario}
-                        disabled
-                    />
                 </div>
 
                 {mensaje && <p className="mensaje">{mensaje}</p>}
 
-                <div id='contenedor-boton'>
+                <div id="contenedor-boton">
                     <BotonVerde
                         label="ACEPTAR"
                         icono={<CheckIcon />}
