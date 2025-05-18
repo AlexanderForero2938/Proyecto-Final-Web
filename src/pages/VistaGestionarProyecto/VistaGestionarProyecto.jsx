@@ -1,85 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuCoordinador from '../../components/MenuCoordinador/MenuCoordinador';
 import ComboBox from '../../components/ComboBox/ComboBox';
 import BotonFormulario from '../../components/BotonFormulario/BotonFormulario';
 import ModalFormulario from '../../components/ModalFormulario/ModalFormulario';
 import EditIcon from '@mui/icons-material/Edit';
 import Tabla from '../../components/Tabla/Tabla';
+import supabase from '../../supabase';
 import './VistaGestionarProyecto.css';
 
-
 const VistaGestionarProyecto = () => {
+  const [openModificar, setOpenModificar] = useState(false);
+  const [proyectos, setProyectos] = useState([]);
+   const navigate = useNavigate(); 
 
-    const [openModificar, setOpenModificar] = useState(false);
+  const handleOpenModificar = () => setOpenModificar(true);
+  const handleCloseModificar = () => setOpenModificar(false);
 
-    const handleOpenModificar = () => setOpenModificar(true);
-    const handleCloseModificar = () => setOpenModificar(false);
+  const columns = [
+    { id: 'idproyecto', label: 'N°' },
+    { id: 'titulo', label: 'TÍTULO' },
+    { id: 'area', label: 'ÁREA' },
+    { id: 'cronograma', label: 'CRONOGRAMA' },
+    { id: 'presupuesto', label: 'PRESUPUESTO' },
+    { id: 'institucion', label: 'INSTITUCIÓN' },
+    { id: 'docente', label: 'DOCENTE' },
+    { id: 'opciones', label: 'OPCIONES' },
+  ];
 
-    const columns = [
-        { id: 'nombreProyecto', label: 'NOMBRE PROYECYO' },
-        { id: 'area', label: 'ÁREA' },
-        { id: 'estadoProyecto', label: 'ESTADO PROYECTO' },
-        { id: 'presupuestoProyecto', label: 'PRESUPUESTO PROYECTO' },
-        { id: 'nombreDocente', label: 'NOMBRE DOCENTE' },
-        { id: 'nombreInstitucion', label: 'NOMBRE INSTITUCIÓN' },
-        { id: 'observacion', label: 'OBSERVACIÓN' },
-        { id: 'opciones', label: 'OPCIONES' },
-    ];
+  useEffect(() => {
+    const fetchProyectos = async () => {
+      const { data, error } = await supabase.rpc('mostrarproyectos');
 
-    const data = [
-        {
-            nombreProyecto: 'Nombre Uno',
-            area: 'Matematicas',
-            estadoProyecto: 'Activo',
-            presupuestoProyecto: '$2.000',
-            nombreDocente: 'Pepito Perez',
-            nombreInstitucion: 'I.E. La Industrial',
-            observacion: 'Proyecto en marcha',
-        },
-        {
-            nombreProyecto: 'Nombre Dos',
-            area: 'Investigación',
-            estadoProyecto: 'Inactivo',
-            presupuestoProyecto: '$5.500',
-            nombreDocente: 'Pepito Perez',
-            nombreInstitucion: 'I.E. La Industrial',
-            observacion: 'Pendiente de aprobación',
-        },
+      if (error) {
+        console.error('Error al obtener proyectos:', error.message);
+      } else {
+        setProyectos(data);
+      }
+    };
 
-    ];
+    fetchProyectos();
+  }, []);
 
-    const rows = data.map((item) => ({
-        ...item,
-        opciones: (
-            <BotonFormulario
-                label="MODIFICAR PROYECTO"
-                component={ModalFormulario}
-                icono={<EditIcon />}
-                onClick={handleOpenModificar}
-                propsModal={{
-                    open: openModificar,
-                    handleClose: handleCloseModificar,
-                    tipo: "Modificar Proyecto",
-                    titulo: "Formulario Proyecto",
-                    data: item,
-                }}
-            />
-        ),
-    }));
+  const rows = proyectos.map((item) => ({
+    ...item,
+    opciones: (
+      <button
+        onClick={() => navigate(`/VistaProyectoSeleccionadoCoordinador/${item.idproyecto}`)}
+        className="btn-vermas"
+      >
+        Ver Más
+      </button>
+    ),
+  }));
 
+  return (
+    <div id='contenedor-gestionar-proyecto'>
+      <MenuCoordinador />
+      <div id='contenedor-opciones'>
+        <ComboBox />
+        <ComboBox />
+      </div>
+      <div id='contenedor-tabla'>
+        <Tabla columns={columns} rows={rows} />
+      </div>
+    </div>
+  );
+};
 
-    return (
-        <div id='contenedor-gestionar-proyecto'>
-            <MenuCoordinador></MenuCoordinador>
-            <div id='contenedor-opciones'>
-                <ComboBox></ComboBox>
-                <ComboBox></ComboBox>
-            </div>
-            <div id='contenedor-tabla'>
-                <Tabla columns={columns} rows={rows}></Tabla>
-            </div>
-        </div>
-    )
-}
-
-export default VistaGestionarProyecto
+export default VistaGestionarProyecto;

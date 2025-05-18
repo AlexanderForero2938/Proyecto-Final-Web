@@ -1,25 +1,25 @@
-// src/pages/VistaGestionarProyectoDocente/VistaGestionarProyectoDocente.jsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './VistaGestionarProyectoDocente.css';
 import MenuDocente from '../../components/MenuDocente/MenuDocente';
 import BotonFormulario from '../../components/BotonFormulario/BotonFormulario';
 import ModalFormulario from '../../components/ModalFormulario/ModalFormulario';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import AddIcon from '@mui/icons-material/Add';
 import Tabla from '../../components/Tabla/Tabla';
-import supabase from '../../supabase'; // Asegúrate de tener esta configuración correctamente exportada
+import supabase from '../../supabase';
 
 const VistaGestionarProyectoDocente = () => {
   const [openRegistrar, setOpenRegistrar] = useState(false);
   const [openModificar, setOpenModificar] = useState(false);
   const [proyectos, setProyectos] = useState([]);
+  const navigate = useNavigate(); // 👈 Hook para redirigir
 
   const handleOpenRegistrar = () => setOpenRegistrar(true);
   const handleCloseRegistrar = () => setOpenRegistrar(false);
   const handleOpenModificar = () => setOpenModificar(true);
   const handleCloseModificar = () => setOpenModificar(false);
 
-  const idDocente = parseInt(sessionStorage.getItem('idUsuario')); // Suponiendo que guardaste el id en sessionStorage
+  const idDocente = parseInt(sessionStorage.getItem('idUsuario'));
 
   const columns = [
     { id: 'idproyecto', label: 'N°' },
@@ -52,18 +52,12 @@ const VistaGestionarProyectoDocente = () => {
   const rows = proyectos.map((item) => ({
     ...item,
     mas: (
-      <BotonFormulario
-        component={ModalFormulario}
-        icono={<AddIcon />}
-        onClick={handleOpenModificar}
-        propsModal={{
-          open: openModificar,
-          handleClose: handleCloseModificar,
-          tipo: 'Modificar Proyecto',
-          titulo: 'Formulario Modificar Proyecto',
-          data: item,
-        }}
-      />
+      <button
+        onClick={() => navigate(`/VistaProyectoSeleccionado/${item.idproyecto}`)}
+        className="btn-vermas"
+      >
+        Ver Más
+      </button>
     ),
   }));
 

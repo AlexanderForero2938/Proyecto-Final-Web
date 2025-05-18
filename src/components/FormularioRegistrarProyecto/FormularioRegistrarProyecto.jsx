@@ -22,6 +22,8 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
   const [instituciones, setInstituciones] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
 
+    const idDocente = parseInt(sessionStorage.getItem('idUsuario'));
+
   useEffect(() => {
     const fetchInstituciones = async () => {
       const { data, error } = await supabase.rpc('listar_institucion');
@@ -103,7 +105,7 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
         pcronograma: cronogramaProyecto,
         ppresupuesto: parseFloat(presupuestoProyecto),
         pinstitucion: institucionProyecto,
-        piddocente: 7, // Ajusta según corresponda
+        piddocente: idDocente, // Ajusta según corresponda
         pobservacion: observacionesAdicionalesProyecto,
         pobjetivos: objetivos,
         pestudiante: estudiantesSeleccionados,
