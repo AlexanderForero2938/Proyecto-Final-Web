@@ -23,7 +23,7 @@
     border-bottom: solid gray 1px;
 }
 
-#contenedor-informacion {
+.contenedor-informacion {
     display: flex;
     flex-direction: column;
     gap: 10px;

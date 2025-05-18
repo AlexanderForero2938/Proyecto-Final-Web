@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuCoordinador from '../../components/MenuCoordinador/MenuCoordinador';
 import ComboBox from '../../components/ComboBox/ComboBox';
 import BotonFormulario from '../../components/BotonFormulario/BotonFormulario';
@@ -9,12 +10,8 @@ import supabase from '../../supabase';
 import './VistaGestionarProyecto.css';
 
 const VistaGestionarProyecto = () => {
-  const [openModificar, setOpenModificar] = useState(false);
   const [proyectos, setProyectos] = useState([]);
-   const navigate = useNavigate(); 
-
-  const handleOpenModificar = () => setOpenModificar(true);
-  const handleCloseModificar = () => setOpenModificar(false);
+  const navigate = useNavigate();
 
   const columns = [
     { id: 'idproyecto', label: 'N°' },
@@ -57,8 +54,6 @@ const VistaGestionarProyecto = () => {
     <div id='contenedor-gestionar-proyecto'>
       <MenuCoordinador />
       <div id='contenedor-opciones'>
-        <ComboBox />
-        <ComboBox />
       </div>
       <div id='contenedor-tabla'>
         <Tabla columns={columns} rows={rows} />

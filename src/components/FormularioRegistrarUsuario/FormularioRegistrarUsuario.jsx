@@ -104,6 +104,7 @@ const FormularioRegistrarUsuario = ({ onClose, onSuccess }) => {
                         value={correoElectronico}
                         onChange={handleChange}
                         placeholder="Correo Electrónico"
+                        type='email'
                     />
                     <ComboBox
                         label="Seleccionar usuario"

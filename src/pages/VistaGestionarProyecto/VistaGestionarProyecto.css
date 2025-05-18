@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+    height: 100%;
+}
+
 #contenedor-gestionar-proyecto {
     width: 100%;
     height: 100%;

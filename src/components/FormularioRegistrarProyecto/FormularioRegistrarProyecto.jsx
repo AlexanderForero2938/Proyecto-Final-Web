@@ -22,7 +22,7 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
   const [instituciones, setInstituciones] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
 
-    const idDocente = parseInt(sessionStorage.getItem('idUsuario'));
+  const idDocente = parseInt(sessionStorage.getItem('idUsuario'));
 
   useEffect(() => {
     const fetchInstituciones = async () => {
@@ -54,11 +54,19 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    // Validar solo números reales en presupuesto
+    if (name === 'presupuestoProyecto') {
+      if (/^\d*\.?\d*$/.test(value)) {
+        setPresupuestoProyecto(value);
+      }
+      return;
+    }
+
     switch (name) {
       case 'tituloProyecto': setTituloProyecto(value); break;
       case 'areaProyecto': setAreaProyecto(value); break;
       case 'cronogramaProyecto': setCronogramaProyecto(value); break;
-      case 'presupuestoProyecto': setPresupuestoProyecto(value); break;
       case 'institucionProyecto': setInstitucionProyecto(value); break;
       case 'observacionesAdicionalesProyecto': setObservacionesAdicionalesProyecto(value); break;
       default: break;
@@ -105,7 +113,7 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
         pcronograma: cronogramaProyecto,
         ppresupuesto: parseFloat(presupuestoProyecto),
         pinstitucion: institucionProyecto,
-        piddocente: idDocente, // Ajusta según corresponda
+        piddocente: idDocente,
         pobservacion: observacionesAdicionalesProyecto,
         pobjetivos: objetivos,
         pestudiante: estudiantesSeleccionados,
@@ -131,7 +139,7 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
           <InputFormulario name="tituloProyecto" value={tituloProyecto} onChange={handleChange} placeholder="Título Proyecto" />
           <InputFormulario name="areaProyecto" value={areaProyecto} onChange={handleChange} placeholder="Área Proyecto" />
           <InputFormulario name="cronogramaProyecto" value={cronogramaProyecto} onChange={handleChange} placeholder="Cronograma Proyecto" />
-          <InputFormulario name="presupuestoProyecto" value={presupuestoProyecto} onChange={handleChange} placeholder="Presupuesto Proyecto" />
+          <InputFormulario name="presupuestoProyecto" value={presupuestoProyecto} onChange={handleChange} placeholder="Presupuesto Proyecto" type="text" />
 
           <ComboBox label="Seleccionar institución" options={instituciones} value={institucionProyecto} onChange={(newValue) => setInstitucionProyecto(newValue?.value || '')} />
 

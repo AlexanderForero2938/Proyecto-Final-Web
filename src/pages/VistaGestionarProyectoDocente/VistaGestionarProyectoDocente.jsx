@@ -7,6 +7,7 @@ import ModalFormulario from '../../components/ModalFormulario/ModalFormulario';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Tabla from '../../components/Tabla/Tabla';
 import supabase from '../../supabase';
+import BotonVerMas from '../../components/BotonVerMas/BotonVerMas';
 
 const VistaGestionarProyectoDocente = () => {
   const [openRegistrar, setOpenRegistrar] = useState(false);
@@ -52,14 +53,10 @@ const VistaGestionarProyectoDocente = () => {
   const rows = proyectos.map((item) => ({
     ...item,
     mas: (
-      <button
-        onClick={() => navigate(`/VistaProyectoSeleccionado/${item.idproyecto}`)}
-        className="btn-vermas"
-      >
-        Ver Más
-      </button>
+      <BotonVerMas ruta={`/VistaProyectoSeleccionado/${item.idproyecto}`} />
     ),
   }));
+
 
   return (
     <div id="contenedor-gestionar-usuario">

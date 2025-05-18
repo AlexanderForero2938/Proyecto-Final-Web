@@ -5,13 +5,21 @@ import './ComboBox.css';
 
 export default function ComboBox({ label, options, value, onChange }) {
   return (
-    <Autocomplete className='combo'
-      disablePortal
-      options={options}
-      value={value}
-      onChange={(event, newValue) => onChange(newValue)}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label={label} />}
+<Autocomplete
+  className="combo"
+  disablePortal
+  options={options}
+  value={value}
+  onChange={(event, newValue) => onChange(newValue)}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label={label}
+      size="small"
+      sx={{ fontSize: 14 }}
     />
+  )}
+/>
+
   );
 }

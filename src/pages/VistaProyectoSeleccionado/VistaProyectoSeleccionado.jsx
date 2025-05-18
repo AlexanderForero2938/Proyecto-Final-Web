@@ -59,14 +59,16 @@ const VistaProyectoSeleccionado = () => {
         <button>Editar</button>
       </div>
 
-      <div id='contenedor-informacion'>
+      <div className='contenedor-informacion'>
         <label className='subtitulo'>Área: {proyecto?.area}</label>
         <label className='subtitulo'>Presupuesto: {proyecto?.presupuesto}</label>
         <label className='subtitulo'>Institución: {proyecto?.institucion}</label>
         <label className='subtitulo'>Docente: {proyecto?.docente}</label>
         <label className='subtitulo'>Observaciones: {proyecto?.observacion}</label>
       </div>
-
+      <div className='contenedor-informacion'>
+        <label className='subtitulo'>Estado: </label>
+      </div>
       <div className='contenedor'>
         <label className='subtitulo'>Integrantes</label>
         <ul>
