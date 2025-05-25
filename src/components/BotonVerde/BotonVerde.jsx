@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import './BotonVerde.css';
 
 const BotonVerde = ({ label, icono, onClick, type = 'button' }) => {
   return (

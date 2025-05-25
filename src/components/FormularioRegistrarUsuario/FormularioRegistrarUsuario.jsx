@@ -86,18 +86,23 @@ const FormularioRegistrarUsuario = ({ onClose, onSuccess }) => {
                         value={nombreCompletoPersona}
                         onChange={handleChange}
                         placeholder="Nombre"
+                        required={true}
+                        
                     />
                     <InputFormulario
                         name="apellidoCompletoPersona"
                         value={apellidoCompletoPersona}
                         onChange={handleChange}
                         placeholder="Apellido"
+                        required={false}
                     />
                     <InputFormulario
                         name="numeroIdentificacion"
                         value={numeroIdentificacion}
                         onChange={handleChange}
                         placeholder="Número de Identificación"
+                        type='number'
+                        required={true}
                     />
                     <InputFormulario
                         name="correoElectronico"
@@ -105,6 +110,7 @@ const FormularioRegistrarUsuario = ({ onClose, onSuccess }) => {
                         onChange={handleChange}
                         placeholder="Correo Electrónico"
                         type='email'
+                        required={true}
                     />
                     <ComboBox
                         label="Seleccionar usuario"

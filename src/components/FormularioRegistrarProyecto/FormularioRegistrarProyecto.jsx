@@ -55,7 +55,6 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    // Validar solo números reales en presupuesto
     if (name === 'presupuestoProyecto') {
       if (/^\d*\.?\d*$/.test(value)) {
         setPresupuestoProyecto(value);
@@ -132,43 +131,165 @@ const FormularioRegistrarProyecto = ({ onClose }) => {
     }
   };
 
+  // Validaciones
+  const hayIntegrantes = integrantesExtras.length > 0;
+  const hayIntegranteSinSeleccionar = integrantesExtras.some(
+    (integrante) => !integrante.identificacion || integrante.identificacion.trim() === ''
+  );
+
+  const hayObjetivos = objetivosExtras.length > 0;
+  const hayObjetivoVacio = objetivosExtras.some(
+    (objetivo) => !objetivo.texto || objetivo.texto.trim() === ''
+  );
+
+  const formInvalido =
+    tituloProyecto.trim() === '' ||
+    areaProyecto.trim() === '' ||
+    cronogramaProyecto.trim() === '' ||
+    presupuestoProyecto.trim() === '' ||
+    institucionProyecto.trim() === '' ||
+    !hayIntegrantes ||
+    hayIntegranteSinSeleccionar ||
+    !hayObjetivos ||
+    hayObjetivoVacio;
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!hayIntegrantes) {
+      alert('Por favor, agrega al menos un integrante.');
+      return;
+    }
+
+    if (hayIntegranteSinSeleccionar) {
+      alert('Por favor, selecciona todos los estudiantes en los integrantes extras.');
+      return;
+    }
+
+    if (!hayObjetivos) {
+      alert('Por favor, agrega al menos un objetivo.');
+      return;
+    }
+
+    if (hayObjetivoVacio) {
+      alert('Por favor, completa todos los objetivos.');
+      return;
+    }
+
+    handleRegistrarProyecto();
+  };
+
   return (
     <div id="contenedor-formulario">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div id="contenedor-superior">
-          <InputFormulario name="tituloProyecto" value={tituloProyecto} onChange={handleChange} placeholder="Título Proyecto" />
-          <InputFormulario name="areaProyecto" value={areaProyecto} onChange={handleChange} placeholder="Área Proyecto" />
-          <InputFormulario name="cronogramaProyecto" value={cronogramaProyecto} onChange={handleChange} placeholder="Cronograma Proyecto" />
-          <InputFormulario name="presupuestoProyecto" value={presupuestoProyecto} onChange={handleChange} placeholder="Presupuesto Proyecto" type="text" />
+          <InputFormulario
+            name="tituloProyecto"
+            value={tituloProyecto}
+            onChange={handleChange}
+            placeholder="Título Proyecto"
+            required={true}
+          />
+          <InputFormulario
+            name="areaProyecto"
+            value={areaProyecto}
+            onChange={handleChange}
+            placeholder="Área Proyecto"
+            required={true}
+          />
+          <InputFormulario
+            name="cronogramaProyecto"
+            value={cronogramaProyecto}
+            onChange={handleChange}
+            placeholder="Cronograma Proyecto"
+            required={true}
+          />
+          <InputFormulario
+            name="presupuestoProyecto"
+            value={presupuestoProyecto}
+            onChange={handleChange}
+            placeholder="Presupuesto Proyecto"
+            type="text"
+            required={true}
+          />
 
-          <ComboBox label="Seleccionar institución" options={instituciones} value={institucionProyecto} onChange={(newValue) => setInstitucionProyecto(newValue?.value || '')} />
+          <ComboBox
+            label="Seleccionar institución"
+            options={instituciones}
+            value={institucionProyecto}
+            onChange={(newValue) => setInstitucionProyecto(newValue?.value || '')}
+          />
 
-          <textarea name="observacionesAdicionalesProyecto" value={observacionesAdicionalesProyecto} onChange={handleChange} placeholder="Observaciones Adicionales Proyecto" rows={5} className="textarea-objetivos" />
+          <textarea
+            name="observacionesAdicionalesProyecto"
+            value={observacionesAdicionalesProyecto}
+            onChange={handleChange}
+            placeholder="Observaciones Adicionales Proyecto"
+            rows={5}
+            className="textarea-objetivos"
+            required
+          />
         </div>
 
-        <div id="campos-extras">
+        <div className="campos-extras">
           {integrantesExtras.map((campo) => (
             <div key={campo.id} className="campo-extra-contenedor">
-              <ComboBox label="Seleccionar estudiante" options={estudiantes} value={campo.identificacion} onChange={(newValue) => handleChangeIntegrante(campo.id, newValue)} />
-              <button type="button" className="boton-eliminar-campo" onClick={() => eliminarIntegranteExtra(campo.id)}>Eliminar</button>
+              <ComboBox
+                label="Seleccionar estudiante"
+                options={estudiantes}
+                value={campo.identificacion}
+                onChange={(newValue) => handleChangeIntegrante(campo.id, newValue)}
+              />
+              <button
+                type="button"
+                className="boton-eliminar-campo"
+                onClick={() => eliminarIntegranteExtra(campo.id)}
+              >
+                Eliminar
+              </button>
             </div>
           ))}
-          <button type="button" onClick={agregarIntegranteExtra} className="boton-agregar-campo">Agregar Integrantes</button>
+          <button type="button" onClick={agregarIntegranteExtra} className="boton-agregar-campo">
+            Agregar Integrantes
+          </button>
         </div>
 
-        <div id="objetivos-extras">
+        <div className="campos-extras">
           {objetivosExtras.map((obj) => (
             <div key={obj.id} className="campo-extra-contenedor">
-              <InputFormulario className="textarea-objetivos" value={obj.texto} onChange={(e) => handleChangeObjetivo(obj.id, e)} placeholder="Escribe un objetivo" rows={3} />
-              <button type="button" className="boton-eliminar-campo" onClick={() => eliminarObjetivoExtra(obj.id)}>Eliminar</button>
+              <InputFormulario
+                className="textarea-objetivos"
+                value={obj.texto}
+                onChange={(e) => handleChangeObjetivo(obj.id, e)}
+                placeholder="Escribe un objetivo"
+                rows={3}
+              />
+              <button
+                type="button"
+                className="boton-eliminar-campo"
+                onClick={() => eliminarObjetivoExtra(obj.id)}
+              >
+                Eliminar
+              </button>
             </div>
           ))}
-          <button type="button" onClick={agregarObjetivoExtra} className="boton-agregar-campo">Agregar Objetivo</button>
+          <button type="button" onClick={agregarObjetivoExtra} className="boton-agregar-campo">
+            Agregar Objetivo
+          </button>
         </div>
 
-        <div id="contenedor-boton">
-          <BotonVerde onClick={handleRegistrarProyecto} label="ACEPTAR" icono={<CheckIcon />} />
-          <BotonRojo onClick={onClose} label="CANCELAR" icono={<ClearIcon />} />
+        <div id="contenedor-boton-formulario-proyecto">
+          <BotonVerde
+            label="ACEPTAR"
+            icono={<CheckIcon />}
+            type="submit"
+            disabled={formInvalido}
+          />
+          <BotonRojo
+            label="CANCELAR"
+            icono={<ClearIcon />}
+            onClick={onClose}
+          />
         </div>
       </form>
     </div>

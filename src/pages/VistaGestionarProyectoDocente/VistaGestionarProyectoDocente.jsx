@@ -4,21 +4,20 @@ import './VistaGestionarProyectoDocente.css';
 import MenuDocente from '../../components/MenuDocente/MenuDocente';
 import BotonFormulario from '../../components/BotonFormulario/BotonFormulario';
 import ModalFormulario from '../../components/ModalFormulario/ModalFormulario';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Tabla from '../../components/Tabla/Tabla';
 import supabase from '../../supabase';
 import BotonVerMas from '../../components/BotonVerMas/BotonVerMas';
+import InputFiltro from '../../components/InputFiltro/InputFiltro';
 
 const VistaGestionarProyectoDocente = () => {
   const [openRegistrar, setOpenRegistrar] = useState(false);
-  const [openModificar, setOpenModificar] = useState(false);
   const [proyectos, setProyectos] = useState([]);
-  const navigate = useNavigate(); // 👈 Hook para redirigir
+  const [filtro, setFiltro] = useState(''); // Estado para el filtro
+  const navigate = useNavigate();
 
   const handleOpenRegistrar = () => setOpenRegistrar(true);
   const handleCloseRegistrar = () => setOpenRegistrar(false);
-  const handleOpenModificar = () => setOpenModificar(true);
-  const handleCloseModificar = () => setOpenModificar(false);
 
   const idDocente = parseInt(sessionStorage.getItem('idUsuario'));
 
@@ -32,50 +31,69 @@ const VistaGestionarProyectoDocente = () => {
     { id: 'mas', label: 'VER MÁS' },
   ];
 
+  // Función para obtener proyectos
+  const fetchProyectos = async () => {
+    const { data, error } = await supabase.rpc('mostrarproyectodocente', {
+      piddocente: idDocente,
+    });
+
+    if (error) {
+      console.error('Error obteniendo proyectos:', error.message);
+    } else {
+      setProyectos(data);
+    }
+  };
+
   useEffect(() => {
-    const fetchProyectos = async () => {
-      const { data, error } = await supabase.rpc('mostrarproyectodocente', {
-        piddocente: idDocente,
-      });
-
-      if (error) {
-        console.error('Error obteniendo proyectos:', error.message);
-      } else {
-        setProyectos(data);
-      }
-    };
-
     if (idDocente) {
-      fetchProyectos();
+      fetchProyectos(); // Llama a la función al cargar el componente
     }
   }, [idDocente]);
 
-  const rows = proyectos.map((item) => ({
+  const handleChange = (event) => {
+    setFiltro(event.target.value); // Actualiza el filtro
+  };
+
+  const filteredProyectos = proyectos.filter((proyecto) =>
+    proyecto.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
+    proyecto.area.toLowerCase().includes(filtro.toLowerCase()) ||
+    String(proyecto.presupuesto).toLowerCase().includes(filtro.toLowerCase()) ||
+    proyecto.institucion.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  const rows = filteredProyectos.map((item) => ({
     ...item,
     mas: (
       <BotonVerMas ruta={`/VistaProyectoSeleccionado/${item.idproyecto}`} />
     ),
   }));
 
-
   return (
-    <div id="contenedor-gestionar-usuario">
+    <div id="gestionar-proyecto">
       <MenuDocente />
-      <div id="contenedor-opciones">
+      <div id="contenedor-filtro">
+        <InputFiltro
+          onChange={handleChange}
+          placeholder="Buscar proyecto..."
+          value={filtro}
+        />
         <BotonFormulario
           label="REGISTRAR PROYECTO"
           component={ModalFormulario}
-          icono={<PersonAddIcon />}
+          icono={<AddCircleIcon />}
           onClick={handleOpenRegistrar}
           propsModal={{
             open: openRegistrar,
-            handleClose: handleCloseRegistrar,
+            handleClose: () => {
+              handleCloseRegistrar();
+              fetchProyectos(); // Recarga los proyectos al cerrar el modal
+            },
             tipo: 'Registrar Proyecto',
             titulo: 'Formulario Registrar Proyecto',
           }}
         />
       </div>
-      <div id="contenedor-tabla">
+      <div id="tabla-proyecto-contenedor">
         <Tabla columns={columns} rows={rows} />
       </div>
     </div>

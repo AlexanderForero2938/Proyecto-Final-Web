@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -15,15 +16,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
 import supabase from '../../supabase'; // Asegúrate de importar supabase
 
 const pages = [
-  { label: 'Gestionar Usuarios', path: '/VistaCoordinador/VistaGestionarUsuario' },
-  { label: 'Gestionar Proyectos', path: '/VistaCoordinador/VistaGestionarProyecto' },
+  { label: 'Gestionar Proyectos', path: '/VistaEstudiante/VistaGestionarProyecto/Estudiante' }
 ];
 
-function MenuCoordinador() {
+function MenuEstudiante() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [openConfirm, setOpenConfirm] = React.useState(false);
@@ -72,7 +71,7 @@ function MenuCoordinador() {
     <AppBar position="static" sx={{ backgroundColor: '#0B2559' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Menú hamburguesa en móvil */}
+          {/* Menú hamburguesa (mobile) */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -84,38 +83,54 @@ function MenuCoordinador() {
             >
               <MenuIcon />
             </IconButton>
-
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
               keepMounted
-              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                  <Typography 
-                    component="a"
-                    href={page.path}
-                    sx={{ 
-                      textDecoration: 'none', 
-                      color: 'inherit', 
-                      width: '100%',
-                      padding: '6px 16px',
-                      display: 'block'
-                    }}
-                  >
-                    {page.label}
-                  </Typography>
+                <MenuItem 
+                  key={page.label} 
+                  onClick={handleCloseNavMenu}
+                  component="a"
+                  href={page.path}
+                >
+                  <Typography textAlign="center">{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          {/* Menú visible en escritorio */}
+          {/* Logo móvil */}
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+            }}
+          >
+            ESTUDIANTE
+          </Typography>
+
+          {/* Menú horizontal (desktop) */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -139,7 +154,7 @@ function MenuCoordinador() {
           {/* Botón de Cerrar Sesión */}
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             <Typography variant="subtitle1" sx={{ mr: 2, color: 'white' }}>
-              {sessionStorage.getItem('rol') === 'coordinador' ? 'Coordinador' : ''}
+              Estudiante
             </Typography>
             <Button
               variant="text"
@@ -189,4 +204,4 @@ function MenuCoordinador() {
   );
 }
 
-export default MenuCoordinador;
+export default MenuEstudiante;

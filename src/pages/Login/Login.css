@@ -1,95 +1,78 @@
+/* Reseteo básico de márgenes, rellenos y box-sizing para todos los elementos */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Establece el alto completo para el body y html, y define la fuente general */
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Centra el contenido de la página vertical y horizontalmente usando flexbox */
 .container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: linear-gradient(850deg,rgb(11, 11, 164), rgb(5, 143, 5), white);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura del 100% del viewport */
 }
 
+/* Estilo del contenedor del formulario de login */
 .login {
-    position: absolute;
-    width: 25%;
-    height: auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.512);
-    
-    .icon {
-        display: flex;
-        justify-content: center;
-        img {
-            width: 150px;
-            height: 150px;
-        }
-    }
-
-    h2 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .datos {
-        margin-bottom: 1.5rem;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        margin-left: 2px;
-        font-size: 14px;
-    }
-
+  width: 35%;                  /* Ancho del contenedor */
+  height: 40%;                 /* Alto del contenedor */
+  border: 2px solid black;     /* Aplica el borde negro */
+  border-radius: 5px;          /* Redondea las esquinas */
+  display: flex;               /* Usamos flexbox para el contenido */
+  flex-direction: column;     /* Apilamos verticalmente los hijos */
+  justify-content: center;    /* Centramos verticalmente el contenido */
 }
 
-input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 10px;
+/* Centra el título "Iniciar sesión" horizontalmente */
+#iniciar-sesion {
+  justify-content: center;
+  display: flex;
+  width: 100%;
 }
 
-ul {
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 30px;
-
-    a {
-        font-weight: bold;
-        font-size: 12.5px;
-        text-decoration: none;
-        color: black;
-    }
-
-    a:hover {
-        color: green;
-    }
+/* Contenedor general de los campos de entrada */
+.datos {
+  display: flex;
+  align-items: center; /* Alineación vertical */
 }
 
+/* Contenedor para el campo de correo */
+.correo,
+/* Contenedor para el campo de contraseña */
+.contraseña {
+  display: flex;
+  align-items: center;
+  flex-direction: column; /* Alinea los hijos en columna */
+  width: 90%;
+  height: 30%;
+  gap: 10px; /* Espaciado entre elementos hijos */
+}
+
+/* Estilo general para los inputs de correo y contraseña */
+.informacion {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px; /* Redondeo de bordes */
+}
+
+/* Botón de inicio de sesión */
 .botonlogin {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  width: 90%;
+  height: 40px;
+  background-color: #0B2559; /* Color azul oscuro */
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
 }
 
+/* Cambio de color cuando el mouse pasa por encima del botón */
 .botonlogin:hover {
-    background-color: #45a049;
+  background-color: #183B59; /* Azul más claro */
 }

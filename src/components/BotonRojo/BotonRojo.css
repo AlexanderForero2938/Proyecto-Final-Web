@@ -1,3 +1,5 @@
-#boton-cancelar{
+#boton-cancelar {
     background-color: red !important;
+    font-size: 9px;
+    height: 100% !important;
 }

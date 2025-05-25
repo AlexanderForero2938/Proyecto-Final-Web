@@ -53,6 +53,7 @@ const VistaGestionarUsuario = () => {
     } else {
       const filtrados = usuarios.filter(usuario =>
         usuario.nombre.toLowerCase().includes(valor.toLowerCase()) ||
+        usuario.apellido.toLowerCase().includes(valor.toLowerCase()) ||
         usuario.nombrerol.toLowerCase().includes(valor.toLowerCase()) ||
         usuario.estadousuario.toLowerCase().includes(valor.toLowerCase())
       );
@@ -181,7 +182,7 @@ const VistaGestionarUsuario = () => {
   return (
     <div id='contenedor-gestionar-usuario'>
       <MenuCoordinador />
-      <div id='contenedor-opciones'>
+      <div id='contenedor-filtro-usuario'>
         <InputFiltro
           onChange={handleChange}
           placeholder="Buscar usuario..."
@@ -201,7 +202,7 @@ const VistaGestionarUsuario = () => {
           }}
         />
       </div>
-      <div id='contenedor-tabla'>
+      <div id='contenedor-tabla-usuario'>
         <Tabla
           columns={columns}
           rows={rows}

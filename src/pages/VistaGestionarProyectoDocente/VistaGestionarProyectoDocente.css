@@ -1,18 +1,56 @@
-#contenedor-gestionar-usuario {
-    width: 100%;
-    display: flex;
-    flex-direction: column; /* Para que se acomoden en vertical */
-    gap: 10px;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-#contenedor-opciones{
-    display: flex;
+html,
+body,
+#root {
+    height: 100%;
+}
+
+#gestionar-proyecto {
     width: 100%;
-    margin-left: 10px;
-    flex-direction: row;
-    gap: 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+#contenedor-filtro {
+    display: flex;
+    width: 99%;
+    height: 5%;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 10px;
+    
 }
 
 
+#tabla-proyecto-contenedor {
+    margin-top: 20px;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* <-- Centro horizontalmente */
+}
+
+
+.MuiTableContainer-root {
+    flex: 1;
+    overflow: auto;
+    background-color: inherit;
+}
+
+.MuiTable-root {
+    min-width: 650px;
+}
 
 

@@ -15,7 +15,6 @@ const BotonVerMas = ({ ruta }) => {
     <Button className='boton-vermas'
       variant="contained"
       color="success"
-      id="boton-formulario"
       startIcon={<RemoveRedEyeIcon />}
       onClick={handleClick}
     />

@@ -5,18 +5,18 @@
   box-sizing: border-box;
 }
 
-/* Contenedor principal: siempre ocupa pantalla completa y centra columnas */
-#contenedor-principal-proyecto-coordinado {
+/* Contenedor principal: pantalla completa, columnas centradad */
+#contenedor-principal-proyecto-estudiante {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  overflow-y: auto; /* Permite scroll si el contenido se desborda */
+  overflow-y: auto;
 }
 
-/* Título y botones en línea, separados al máximo */
+/* Header con título y botones */
 #contenedor-titulo-proyecto {
   margin-top: 5px;
   width: 80%;
@@ -27,19 +27,19 @@
   border-bottom: 1px solid gray;
 }
 
-/* Cada bloque de información apila sus labels o listas */
+/* Cada bloque de info con fondo y padding */
 .contenedor-informacion {
   display: flex;
   flex-direction: column;
   width: 80%;
   gap: 8px;
   padding: 10px 20px;
-  background: #fafafa; /* color de fondo suave opcional */
-  border-radius: 4px;  /* esquinas redondeadas */
+  background: #fafafa;
+  border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Estilo consistente para subtítulos/labels */
+/* Subtítulos */
 .subtitulo {
   font-size: 15px;
   font-weight: bold;
@@ -47,22 +47,13 @@
   color: #333;
 }
 
-/* Ajusta el espacio interno de las listas */
+/* Listas con viñetas */
 .contenedor-informacion ul {
   list-style: disc inside;
   padding-left: 20px;
 }
 
-/* Contenedor del botón “Agregar Estado” */
-.contenedor-boton {
-  width: 80%;
-  display: flex;
-  justify-content: flex-start;
-  padding: 0 20px;
-  margin-bottom: 20px;
-}
-
-/* Botón Descargar PDF y Editar */
+/* Botón PDF */
 .btn-pdf {
   background-color: #1976d2;
   color: white;

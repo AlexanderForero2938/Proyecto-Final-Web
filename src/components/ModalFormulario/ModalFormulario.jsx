@@ -7,19 +7,25 @@ import FormularioRegistrarUsuario from '../FormularioRegistrarUsuario/Formulario
 import FormularioModificarUsuario from '../FormularioModificarUsuario/FormularioModificarUsuario';
 import FormularioModificarEstadoProyecto from '../FormularioModificarEstadoProyecto/FormularioModificarEstadoProyecto';
 import FormularioRegistrarProyecto from '../FormularioRegistrarProyecto/FormularioRegistrarProyecto';
+import FormularioEstadoProyecto from '../FormularioEstadoProyecto/FormularioEstadoProyecto';
+import FormularioAvance from '../FormularioAvance/FormularioAvance';
 
 const ModalFormulario = ({ open, handleClose, tipo, titulo, nombreUsuario, onSuccess }) => {
   // Función para renderizar el formulario adecuado basado en el tipo
   const renderFormulario = () => {
     switch (tipo) {
       case "Registrar Usuario":
-        return <FormularioRegistrarUsuario onClose={handleClose}  onSuccess={onSuccess} />;
+        return <FormularioRegistrarUsuario onClose={handleClose} onSuccess={onSuccess} />;
       case "Modificar Usuario":
         return <FormularioModificarUsuario onClose={handleClose} nombreUsuario={nombreUsuario} onSuccess={onSuccess} />;
       case "Modificar Proyecto":
         return <FormularioModificarEstadoProyecto onClose={handleClose} />;
       case "Registrar Proyecto":
         return <FormularioRegistrarProyecto onClose={handleClose} onSuccess={onSuccess} />;
+      case "Agregar Estado":
+        return <FormularioEstadoProyecto onClose={handleClose} nombreUsuario={nombreUsuario} onSuccess={onSuccess} />;
+      case "Agregar Avance":
+        return <FormularioAvance onClose={handleClose} nombreUsuario={nombreUsuario} onSuccess={onSuccess} />;
       default:
         return null;
     }
